@@ -119,6 +119,19 @@ export function calculateMedian(values: number[]): number {
 }
 
 /**
+ * Calculate the simple average (arithmetic mean) of an array of numbers.
+ * Used to produce one final price from multiple source prices (e.g. NGN).
+ * @param prices - Array of price numbers from different sources
+ * @returns The arithmetic mean, or 0 for an empty array
+ */
+export function calculateAverage(prices: number[]): number {
+  if (prices.length === 0) return 0;
+
+  const sum = prices.reduce((acc, price) => acc + price, 0);
+  return sum / prices.length;
+}
+
+/**
  * Rate Fetch Statistics
  * Performance and reliability metrics
  */
