@@ -32,6 +32,8 @@ model Currency {
   
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+
+  priceHistory PriceHistory[]
 }
 
 // On-Chain Confirmed Price Model
@@ -110,6 +112,8 @@ model MultiSigPrice {
   @@index([currency, status, requestedAt])
   @@index([status, expiresAt])
   @@index([priceReviewId])
+
+  signatures        MultiSigSignature[]
 }
 
 // Multi-Sig Signature Model
