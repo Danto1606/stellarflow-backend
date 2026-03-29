@@ -1,5 +1,6 @@
 import express from "express";
 import { createServer } from "http";
+import compression from "compression";
 import cors from "cors";
 import dotenv from "dotenv";
 import morgan from "morgan";
@@ -71,6 +72,7 @@ const horizonServer = new Horizon.Server(horizonUrl);
 
 // Middleware
 app.use(morgan("dev"));
+app.use(compression());
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -288,7 +290,7 @@ app.use(
     err: Error,
     req: express.Request,
     res: express.Response,
-    next: express.NextFunction,
+    _next: express.NextFunction,
   ) => {
     console.error("Unhandled error:", err);
     res.status(500).json({
@@ -329,7 +331,7 @@ const closeHttpServer = (): Promise<void> =>
     });
   });
 
-const shutdown = async (signal: NodeJS.Signals): Promise<void> => {
+const shutdown = async (signal: "SIGINT" | "SIGTERM"): Promise<void> => {
   if (isShuttingDown) {
     console.log(
       `Shutdown already in progress. Received duplicate ${signal} signal.`,
